@@ -1,124 +1,67 @@
-import kotlin.math.min;
-import kotlin.math.max;
-import kotlin.math.sqrt
+open class Vehicle(var name: String = "Транспорт", var velocity: Int = 0) {
+    open fun start() {
+        println("$name начал движение ($velocity км/ч)")
+    }
 
-
-fun firstTask() {
-    print("Введите количество простых чисел (n): ")
-    val numberOfPrime = readln().toInt()
-
-    var count = 0
-    var number = 2
-
-    while (count < numberOfPrime) {
-        if (isPrime(number)) {
-            count++
-            println("${count}-е число: $number")
-        }
-        number++
+    // Метод для остановки
+    open fun stop() {
+        println("$name остановился")
     }
 }
 
-fun secondTask() {
-    val numberArray: IntArray = intArrayOf(1, 2, 3, 4, 5, 3, 4, 5)
-
-    print("Использование цикла for:\n")
-    for (numberIndex in 1 until numberArray.size - 1) {
-        if (numberArray[numberIndex] > numberArray[numberIndex - 1] && numberArray[numberIndex] > numberArray[numberIndex + 1]) {
-            print("${numberArray[numberIndex]} ")
-        }
+class Boat(name: String = "Лодка", velocity: Int = 4) : Vehicle(name, velocity){
+    override fun start(){
+        println("$name начал плыть ($velocity км/ч)")
     }
-    println()
 
-    print("Использование цикла while:\n")
-    var numberIndex = 1
-    while (numberIndex < numberArray.size - 1) {
-        if (numberArray[numberIndex] > numberArray[numberIndex - 1] && numberArray[numberIndex] > numberArray[numberIndex + 1]) {
-            print("${numberArray[numberIndex]} ")
-        }
-        numberIndex++
+    override fun stop() {
+        println("$name сбросила якорь")
     }
-    println()
-
-    print("Использование оператора forEach:\n")
-    numberArray.forEachIndexed { numberIndex, element ->
-        if (numberIndex in 1 until numberArray.size - 1 && element > numberArray[numberIndex - 1] && element > numberArray[numberIndex + 1]) {
-            print("$element ")
-        }
-    }
-    println()
 }
 
-fun thirdTask(){
-    val array = intArrayOf(1, 2, 3, 4, 5, 3, 4, 5)
-
-    var resultFor = 1
-    var minFor = array[0]
-    var maxFor = array[0]
-    for (i in array.indices) {
-        resultFor *= array[i]
-        minFor = min(minFor, array[i])
-        maxFor = max(maxFor, array[i])
+class Plane(name: String = "Самолет", velocity: Int = 100) : Vehicle(name, velocity){
+    override fun start(){
+        println("$name взлетел ($velocity км/ч)")
     }
-    println("Цикл for: Произведение = $resultFor, min = $minFor, max = $maxFor")
 
-    var whileResult = 1
-    var minWhile = array[0]
-    var maxWhile = array[0]
-    var i = 0
-    while (i < array.size) {
-        whileResult *= array[i]
-        minWhile = min(minWhile, array[i])
-        maxWhile = max(maxWhile, array[i])
-        i++
+    override fun stop() {
+        println("$name сел на посадку")
     }
-    println("Цикл while: Произведение = $whileResult, min = $minWhile, max = $maxWhile")
-
-    val reduceResult = array.reduce { acc, element -> acc * element }
-    val minReduce = array.reduce { acc, element -> min(acc, element) }
-    val maxReduce = array.reduce { acc, element -> maxOf(acc, element) }
-    println("Функция reduce(): Произведение = $reduceResult, min = $minReduce, max = $maxReduce")
-
-    var forEachResult = 1
-    var minForEach = array[0]
-    var maxForEach = array[0]
-    array.forEach { element ->
-        forEachResult *= element
-        minForEach = min(minForEach, element)
-        maxForEach = max(maxForEach, element)
-    }
-    println("Оператор forEach: Произведение = $forEachResult, min = $minForEach, max = $maxForEach")
-
-    val min = array.minOrNull() ?: 0
-    val max = array.maxOrNull() ?: 0
-    println("Функции min() и max(): min = $min, max = $max")
 }
 
-fun isPrime(num: Int): Boolean {
-    if (num <= 1) return false
-    for (i in 2..sqrt(num.toDouble()).toInt()) {
-        if (num % i == 0) return false
+class Tank(name: String = "Танк", velocity: Int = 50) : Vehicle(name, velocity){
+    override fun start(){
+        println("$name начал выдвигаться на позицию ($velocity км/ч)")
     }
-    return true
+
+    override fun stop() {
+        println("$name занял позицию")
+    }
 }
 
 fun main(){
     while(true){
         println("Выберите задание");
-        println("1. Простые числа");
-        println("2. Элементы больше соседних");
-        println("3. Min и Max");
+        println("1. Лодка");
+        println("2. Самолёт");
+        println("3. Танк");
         print("Выбор: ");
         val userChoice = readLine();
         if (userChoice != null){
             if (userChoice == "1"){
-                firstTask();
+                var boat: Boat = Boat();
+                boat.start();
+                boat.stop();
             }
             else if (userChoice == "2"){
-                secondTask();
+                var plane: Plane = Plane();
+                plane.start()
+                plane.stop()
             }
             else if (userChoice == "3"){
-                thirdTask();
+                var tank: Tank = Tank();
+                tank.start();
+                tank.stop();
             }
             else {
                 println("Не задание!");
