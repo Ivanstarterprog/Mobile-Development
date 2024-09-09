@@ -1,63 +1,124 @@
-fun square(number: Double): Double {
-    return number * number
-}
+import kotlin.math.min;
+import kotlin.math.max;
+import kotlin.math.sqrt
 
-fun discriminant(a: Double, b: Double, c: Double): Double {
-    return b * b - 4 * a * c
-}
 
-fun rootsNumber(a: Double, b: Double, c: Double): Int {
-    val disc = discriminant(a, b, c)
-    return when {
-        disc > 0 -> 2
-        disc == 0.0 -> 1
-        else -> 0
+fun firstTask() {
+    print("Введите количество простых чисел (n): ")
+    val numberOfPrime = readln().toInt()
+
+    var count = 0
+    var number = 2
+
+    while (count < numberOfPrime) {
+        if (isPrime(number)) {
+            count++
+            println("${count}-е число: $number")
+        }
+        number++
     }
 }
 
-private fun quadraticRoot(a: Double, b: Double, c: Double) {
-    val disc = discriminant(a, b, c)
-    when (rootsNumber(a, b, c)) {
-        2 -> {
-            val root1 = (-b + square(disc)) / (2 * a)
-            val root2 = (-b - square(disc)) / (2 * a)
-            println("Корни уравнения: x1 = $root1, x2 = $root2")
-        }
+fun secondTask() {
+    val numberArray: IntArray = intArrayOf(1, 2, 3, 4, 5, 3, 4, 5)
 
-        1 -> {
-            val root = -b / (2 * a)
-            println("Единственный корень уравнения: x = $root")
-        }
-
-        0 -> {
-            println("Нет действительных корней.")
+    print("Использование цикла for:\n")
+    for (numberIndex in 1 until numberArray.size - 1) {
+        if (numberArray[numberIndex] > numberArray[numberIndex - 1] && numberArray[numberIndex] > numberArray[numberIndex + 1]) {
+            print("${numberArray[numberIndex]} ")
         }
     }
+    println()
+
+    print("Использование цикла while:\n")
+    var numberIndex = 1
+    while (numberIndex < numberArray.size - 1) {
+        if (numberArray[numberIndex] > numberArray[numberIndex - 1] && numberArray[numberIndex] > numberArray[numberIndex + 1]) {
+            print("${numberArray[numberIndex]} ")
+        }
+        numberIndex++
+    }
+    println()
+
+    print("Использование оператора forEach:\n")
+    numberArray.forEachIndexed { numberIndex, element ->
+        if (numberIndex in 1 until numberArray.size - 1 && element > numberArray[numberIndex - 1] && element > numberArray[numberIndex + 1]) {
+            print("$element ")
+        }
+    }
+    println()
+}
+
+fun thirdTask(){
+    val array = intArrayOf(1, 2, 3, 4, 5, 3, 4, 5)
+
+    var resultFor = 1
+    var minFor = array[0]
+    var maxFor = array[0]
+    for (i in array.indices) {
+        resultFor *= array[i]
+        minFor = min(minFor, array[i])
+        maxFor = max(maxFor, array[i])
+    }
+    println("Цикл for: Произведение = $resultFor, min = $minFor, max = $maxFor")
+
+    var whileResult = 1
+    var minWhile = array[0]
+    var maxWhile = array[0]
+    var i = 0
+    while (i < array.size) {
+        whileResult *= array[i]
+        minWhile = min(minWhile, array[i])
+        maxWhile = max(maxWhile, array[i])
+        i++
+    }
+    println("Цикл while: Произведение = $whileResult, min = $minWhile, max = $maxWhile")
+
+    val reduceResult = array.reduce { acc, element -> acc * element }
+    val minReduce = array.reduce { acc, element -> min(acc, element) }
+    val maxReduce = array.reduce { acc, element -> maxOf(acc, element) }
+    println("Функция reduce(): Произведение = $reduceResult, min = $minReduce, max = $maxReduce")
+
+    var forEachResult = 1
+    var minForEach = array[0]
+    var maxForEach = array[0]
+    array.forEach { element ->
+        forEachResult *= element
+        minForEach = min(minForEach, element)
+        maxForEach = max(maxForEach, element)
+    }
+    println("Оператор forEach: Произведение = $forEachResult, min = $minForEach, max = $maxForEach")
+
+    val min = array.minOrNull() ?: 0
+    val max = array.maxOrNull() ?: 0
+    println("Функции min() и max(): min = $min, max = $max")
+}
+
+fun isPrime(num: Int): Boolean {
+    if (num <= 1) return false
+    for (i in 2..sqrt(num.toDouble()).toInt()) {
+        if (num % i == 0) return false
+    }
+    return true
 }
 
 fun main(){
     while(true){
         println("Выберите задание");
-        println("1. Квадрат числа");
-        println("2. Квадратные корни уравнения");
+        println("1. Простые числа");
+        println("2. Элементы больше соседних");
+        println("3. Min и Max");
         print("Выбор: ");
         val userChoice = readLine();
         if (userChoice != null){
             if (userChoice == "1"){
-                print("Введите число: ")
-                val squareValue = readln().toDouble();
-                println("Квадрат числа ${square(squareValue)}: ${square(squareValue)}")
+                firstTask();
             }
             else if (userChoice == "2"){
-                print("Введите коэффициент a: ")
-                val a = readln().toDouble();
-                print("Введите коэффициент b: ")
-                val b = readln().toDouble();
-                print("Введите коэффициент c: ")
-                val c = readln().toDouble();
-                println("Дискриминант уравнения: ${discriminant(a, b, c)}")
-                println("Количество корней: ${rootsNumber(a, b, c)}")
-                quadraticRoot(a, b, c)
+                secondTask();
+            }
+            else if (userChoice == "3"){
+                thirdTask();
             }
             else {
                 println("Не задание!");
