@@ -1,134 +1,63 @@
-import kotlin.math.sqrt
+fun square(number: Double): Double {
+    return number * number
+}
 
-open class FirstTask(val numberArr: IntArray){
-    fun arraySum(): Int{
-        var resultNumber:Int = 0;
-        numberArr.forEach {
-            if (it > 0) {
-                resultNumber += it;
-            }
-        }
-        return resultNumber;
-    }
+fun discriminant(a: Double, b: Double, c: Double): Double {
+    return b * b - 4 * a * c
+}
 
-    fun arrayMultiply(): Int{
-        var resultNumber:Int = 1;
-        numberArr.forEach {
-            resultNumber *= it;
-        }
-        return resultNumber;
-    }
-
-    fun arithmeticMean(): Int{
-        var resultNumber:Int = 1;
-        numberArr.forEach {
-            resultNumber += it;
-        }
-        resultNumber /= numberArr.size;
-        return resultNumber;
+fun rootsNumber(a: Double, b: Double, c: Double): Int {
+    val disc = discriminant(a, b, c)
+    return when {
+        disc > 0 -> 2
+        disc == 0.0 -> 1
+        else -> 0
     }
 }
 
-open class SecondTask(numberArr: IntArray) : FirstTask(numberArr){
-    var sum: Int = 0
-        get(){
-            var sum: Int = 0;
-            numberArr.forEach {
-                sum += it;
-            }
-            return sum
+private fun quadraticRoot(a: Double, b: Double, c: Double) {
+    val disc = discriminant(a, b, c)
+    when (rootsNumber(a, b, c)) {
+        2 -> {
+            val root1 = (-b + square(disc)) / (2 * a)
+            val root2 = (-b - square(disc)) / (2 * a)
+            println("Корни уравнения: x1 = $root1, x2 = $root2")
         }
 
-    fun doublesAboveZero(): IntArray{
-        val resultArr: IntArray = IntArray(numberArr.size);
-        for(i in numberArr.indices){
-            resultArr[i] = numberArr[i];
-            if (resultArr[i] % 2 == 0){
-                resultArr[i] *= 2;
-            }
+        1 -> {
+            val root = -b / (2 * a)
+            println("Единственный корень уравнения: x = $root")
         }
-        return resultArr;
-    }
 
-    fun arrayMax(): Int{
-        var max: Int = numberArr[0];
-        numberArr.forEach {
-            if (it > max){
-                max = it
-            }
+        0 -> {
+            println("Нет действительных корней.")
         }
-        return max;
     }
-
-    fun arrayMin(): Int{
-        var min: Int = numberArr[0];
-        numberArr.forEach {
-            if (it < min){
-                min = it
-            }
-        }
-        return min;
-    }
-}
-
-class Vector(val listOfCoord: List<Double>){
-    var x = listOfCoord[0];
-    var y = listOfCoord[1];
-    var z = listOfCoord[2]
-
-    fun vectorLength(): Double{
-        val length = sqrt(x * x + y * y + z * z);
-        return length;
-    }
-
-    fun firstScalar(vectorEnemy: Vector) : Double{
-        var scalar = x * vectorEnemy.x + y * vectorEnemy.y + z * vectorEnemy.z;
-        return scalar;
-    }
-
-    infix fun infixScalar(vectorEnemy: Vector){
-        println(x * vectorEnemy.x + y * vectorEnemy.y + z * vectorEnemy.z);
-    }
-
-    operator fun times(vectorEnemy: Vector): Double{
-        return x * vectorEnemy.x + y * vectorEnemy.y + z * vectorEnemy.z;
-    }
-}
-
-fun scalar(vectorOne: Vector, vectorTwo: Vector): Double{
-    return vectorOne * vectorTwo;
 }
 
 fun main(){
     while(true){
         println("Выберите задание");
-        println("1. Классы в котлин");
-        println("2. Ввод чисел");
-        println("3. Перегрузка методов");
+        println("1. Квадрат числа");
+        println("2. Квадратные корни уравнения");
         print("Выбор: ");
         val userChoice = readLine();
         if (userChoice != null){
             if (userChoice == "1"){
-                val numberArray = FirstTask(intArrayOf(-1,2,-3,4,5))
-                println(numberArray.arraySum());
-                println(numberArray.arrayMultiply())
-                println(numberArray.arithmeticMean());
+                print("Введите число: ")
+                val squareValue = readln().toDouble();
+                println("Квадрат числа ${square(squareValue)}: ${square(squareValue)}")
             }
             else if (userChoice == "2"){
-                val secondTask = SecondTask(intArrayOf(1,2,3,4,5));
-                println(secondTask.doublesAboveZero().contentToString());
-                println(secondTask.arrayMax());
-                println(secondTask.arrayMin());
-                println(secondTask.sum);
-            }
-            else if (userChoice == "3"){
-                var Vector1 = Vector(listOfCoord = listOf(2.0, 2.0, 2.0))
-                var Vector2 = Vector(listOfCoord = listOf(2.0, 2.0, 2.0))
-                println(Vector1.vectorLength());
-                println(Vector1.firstScalar(Vector2));
-                Vector1 infixScalar Vector2
-                println(Vector1 * Vector2);
-                println(scalar(Vector1, Vector2));
+                print("Введите коэффициент a: ")
+                val a = readln().toDouble();
+                print("Введите коэффициент b: ")
+                val b = readln().toDouble();
+                print("Введите коэффициент c: ")
+                val c = readln().toDouble();
+                println("Дискриминант уравнения: ${discriminant(a, b, c)}")
+                println("Количество корней: ${rootsNumber(a, b, c)}")
+                quadraticRoot(a, b, c)
             }
             else {
                 println("Не задание!");
