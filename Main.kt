@@ -1,67 +1,69 @@
-import java.util.Dictionary
+import java.util.Scanner;
 
-fun negativeNumbers(val numList: List<Int>): List<Int>{
-    var resultList = numList.filter { it < 0 }
-    return resultList;
-}
+fun FirstTask(){
+    val scanner = Scanner(System.`in`);
 
-fun changeZnak(numList: List<Int>): MutableList<Int>{
-    var newList: MutableList<Int> = mutableListOf<Int>();
-    numList.forEach {
-        if (it > 0){
-            newList.add(it * -1);
+    print("Введите первое число: ");
+    val num1 = scanner.nextDouble();
+    print("Введите второе число: ");
+    val num2 = scanner.nextDouble();
+    print("Введите знак операции (+, -, *, /): ");
+    val operation = scanner.next();
+
+    val result = when (operation) {
+        "+" -> num1 + num2
+        "-" -> num1 - num2
+        "*" -> num1 * num2
+        "/" -> {
+            if (num2 == 0.0) {
+                println("Ошибка: Деление на ноль");
+                return
+            }
+            num1 / num2
         }
-        else{
-            newList.add(it);
+
+        else -> {
+            println("Ошибка: Неизвестная операция.");
+            return
         }
     }
-    return newList;
+
+    // Вывод результата
+    println("Ответ: $result");
 }
 
-fun makeAList(): String{
-    var numberList: IntRange = IntRange(1, 7);
-    return numberList.joinToString(separator = "+", prefix = "=", postfix = "=")
-}
+fun SecondTask(){
+    var words: Array<String?> = arrayOf("Ты кто?", null, "Я никто", null, null, "Я никто");
 
-fun phoneBookCode(phoneBook: Dictionary<String, String>, countryCode: String): Dictionary<String, String>{
-    for (number in phoneBook)
+    words.forEach {
+        if (it != null){
+            println("if: ${it.replaceFirstChar(Char::titlecase)}")
+        }
+
+        println("?: ${it?.replaceFirstChar(Char::titlecase)}")
+
+        it.let {
+            println("let: ${it?.replaceFirstChar(Char::titlecase) }")
+        }
+
+        val elvisValue = it?.replaceFirstChar(Char::titlecase) ?: "А чо так пусто"
+        println("Элвис: ${elvisValue}")
+    }
 }
 
 fun main(){
     while(true){
         println("Выберите задание");
-        println("1. Абстракция");
-        println("2. Интерфейс");
+        println("1. Калькулятор");
+        println("2. Проверка списка");
         print("Выбор: ");
         val userChoice = readLine();
         if (userChoice != null){
             if (userChoice == "1"){
-                var rect: Rectangle = Rectangle(5.0, 5.0);
-                var sqr: Square = Square(4.5);
-                var crcl: Circle = Circle(6.2);
-                println("Прямоугольник с шириной 5 и высотой 5");
-                println("Его площадь - ${rect.area()}");
-                println("Его периметр - ${rect.perimeter()}");
-                println("Квадрат со стороной 4.5");
-                println("Его площадь - ${sqr.area()}");
-                println("Его периметр - ${sqr.perimeter()}");
-                println("Круг с площадью 6.2");
-                println("Его площадь - ${crcl.area()}");
-                println("Его периметр - ${crcl.perimeter()}");
+                FirstTask();
             }
             else if (userChoice == "2"){
-                var rect: RectangleInterface = RectangleInterface(5.0, 5.0);
-                var sqr: SquareInterface = SquareInterface(4.5);
-                var crcl: CircleInterface = CircleInterface(6.2);
-                println("Прямоугольник с шириной 5 и высотой 5");
-                println("Его площадь - ${rect.area()}");
-                println("Его периметр - ${rect.perimeter()}");
-                println("Квадрат со стороной 4.5");
-                println("Его площадь - ${sqr.area()}");
-                println("Его периметр - ${sqr.perimeter()}");
-                println("Круг с площадью 6.2");
-                println("Его площадь - ${crcl.area()}");
-                println("Его периметр - ${crcl.perimeter()}");
+                SecondTask();
             }
             else {
                 println("Не задание!");
