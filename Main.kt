@@ -1,5 +1,31 @@
-import AbstractFigure.*
-import FigureInterface.*
+import java.util.Dictionary
+
+fun negativeNumbers(val numList: List<Int>): List<Int>{
+    var resultList = numList.filter { it < 0 }
+    return resultList;
+}
+
+fun changeZnak(numList: List<Int>): MutableList<Int>{
+    var newList: MutableList<Int> = mutableListOf<Int>();
+    numList.forEach {
+        if (it > 0){
+            newList.add(it * -1);
+        }
+        else{
+            newList.add(it);
+        }
+    }
+    return newList;
+}
+
+fun makeAList(): String{
+    var numberList: IntRange = IntRange(1, 7);
+    return numberList.joinToString(separator = "+", prefix = "=", postfix = "=")
+}
+
+fun phoneBookCode(phoneBook: Dictionary<String, String>, countryCode: String): Dictionary<String, String>{
+    for (number in phoneBook)
+}
 
 fun main(){
     while(true){
